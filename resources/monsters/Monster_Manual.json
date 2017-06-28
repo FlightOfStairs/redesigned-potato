@@ -48995,11 +48995,6 @@
         "modifier": "+5"
       },
       {
-        "id": 3672,
-        "type": "Sleight",
-        "modifier": "of"
-      },
-      {
         "id": 3673,
         "type": "Stealth",
         "modifier": "+4"
