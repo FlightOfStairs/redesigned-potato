@@ -15,28 +15,30 @@ sealed class DiceExpression {
                     .toLowerCase()
                     .replace("plus", "+")
                     .filter { !it.isWhitespace() }
+                    .let { if (it.first() == '(' && it.last() == ')') it.substring(1, it.length - 1) else it }
 
-            return fromCleanString(expression)
+            return fromCleanString(expression, false)
         }
 
-        private fun fromCleanString(expression: String): DiceExpression {
+        private fun fromCleanString(expression: String, negated: Boolean): DiceExpression {
             // assumes no complete expressions that are negative
-            if (expression.toCharArray().all { it.isDigit() }) return Modifier(expression.toInt())
+            if (expression.toCharArray().all { it.isDigit() }) return Modifier(expression.toInt().let { if (negated) 0 - it else it })
 
             if (expression.contains('+')) {
-                return Sum(expression.split('+').map { fromCleanString(it) })
+                return Sum(expression.split('+').map { fromCleanString(it, false) }).let { if (negated) Negation(it) else it }
             }
 
             if (expression.contains('-')) {
                 assert(expression.count { it == '-' } == 1)
+                assert(!negated)
                 val (left, right) = expression.split('-')
-                return Sum(listOf(fromCleanString(left), Negation(fromCleanString(right))))
+                return Sum(listOf(fromCleanString(left, negated), fromCleanString(right, true)))
             }
 
             if (expression.contains('d')) {
                 assert(expression.count { it == 'd' } == 1)
                 val (count, sides) = expression.split('d')
-                return Dice(count.toInt(), sides.toInt())
+                return Dice(count.toInt(), sides.toInt()).let { if (negated) Negation(it) else it }
             }
 
             throw RuntimeException("Weird dice (sub)expression: $expression")
@@ -45,7 +47,7 @@ sealed class DiceExpression {
 
 }
 
-internal data class Modifier(val number: Int) : DiceExpression()
-internal data class Dice(val count: Int, val sides: Int) : DiceExpression()
-internal data class Sum(val subexpressions: List<DiceExpression>) : DiceExpression()
-internal data class Negation(val negatedExpression: DiceExpression) : DiceExpression()
+data class Modifier(val number: Int) : DiceExpression()
+data class Dice(val count: Int, val sides: Int) : DiceExpression()
+data class Sum(val subexpressions: List<DiceExpression>) : DiceExpression()
+data class Negation(val negatedExpression: DiceExpression) : DiceExpression()
