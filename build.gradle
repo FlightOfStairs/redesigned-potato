@@ -46,6 +46,7 @@ dependencies {
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.8.7"
     testCompile 'junit:junit:4.12'
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testCompile "org.skyscreamer:jsonassert:1.5.0"
 }
 
 task wrapper(type: Wrapper) {
