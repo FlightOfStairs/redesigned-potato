@@ -32,7 +32,7 @@ data class Attribute(val score: Int) {
 }
 
 data class Attributes(val str: Attribute, val dex: Attribute, val con: Attribute, val int: Attribute, val wis: Attribute, val cha: Attribute) {
-    fun getAtributeOfType(attributeType: AttributeType) = when (attributeType) {
+    fun getAttributeOfType(attributeType: AttributeType) = when (attributeType) {
         AttributeType.Str -> str
         AttributeType.Dex -> dex
         AttributeType.Con -> con
@@ -41,3 +41,5 @@ data class Attributes(val str: Attribute, val dex: Attribute, val con: Attribute
         AttributeType.Cha -> cha
     }
 }
+
+data class ExplicitSave(val attributeType: AttributeType, val modifier: Modifier)

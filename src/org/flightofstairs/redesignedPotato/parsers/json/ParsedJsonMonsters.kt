@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.flightofstairs.redesignedPotato.Main
 import org.flightofstairs.redesignedPotato.model.*
+import org.flightofstairs.redesignedPotato.model.AttackType.*
 
 internal interface Parsed<out Type> {
     fun toModel(): Type
@@ -30,7 +31,7 @@ internal data class ParsedAttack(val id: Int,
                                  val type: String,
                                  val toHit: Int,
                                  val damages: List<ParsedAttackDamages>,
-                                 val selected: Boolean,
+                                 val selected: Boolean, // always false?
                                  val meleeWeaponAttack: Boolean,
                                  val meleeSpellAttack: Boolean,
                                  val rangedWeaponAttack: Boolean,
@@ -41,10 +42,20 @@ internal data class ParsedAttack(val id: Int,
                                  val reach: String?,
                                  val range: String?,
                                  val maxRange: String?): Parsed<MonsterAttack> {
+
     override fun toModel(): MonsterAttack {
+        val isWeapon = meleeWeaponAttack || rangedWeaponAttack
+        val isSpell = meleeSpellAttack || rangedSpellAttack
 
+        assert(!isWeapon || !isSpell)
 
-        return MonsterAttack(type, Modifier(toHit), damages.map { it.toModel() }, selected, meleeWeaponAttack, meleeSpellAttack, rangedWeaponAttack, rangedSpellAttack, target, spellReach, spellRange, reach, range, maxRange)
+        val attackType = if (isWeapon) Weapon else if (isSpell) Spell else Unknown
+
+        val standOffs = setOf<StandOff>()
+                .plus(if (meleeWeaponAttack || meleeSpellAttack) listOf(StandOff.Melee) else listOf())
+                .plus(if (rangedWeaponAttack || rangedSpellAttack) listOf(StandOff.Ranged) else listOf())
+
+        return MonsterAttack(type, Modifier(toHit), damages.map { it.toModel() }, attackType, standOffs, target, spellReach, spellRange, reach, range, maxRange)
     }
 }
 
@@ -59,7 +70,7 @@ internal data class ParsedEnvironment(val id: Int, val name: MonsterEnvironment)
 }
 
 internal data class ParsedSources(val id: Int, val book: String, val page: Int): Parsed<MonsterSources> {
-    override fun toModel() = MonsterSources(id, book, page)
+    override fun toModel() = MonsterSources(book, page)
 }
 
 internal data class ParsedMonster(val id: Int,
@@ -94,19 +105,16 @@ internal data class ParsedMonster(val id: Int,
                                   val sources: List<ParsedSources>,
                                   val averageHitPoints: Int): Parsed<Monster> {
     override fun toModel(): Monster {
-        val hitpointsExpression = DiceExpression.fromString(hitPoints)
-        assert(hitpointsExpression.average().toInt() == averageHitPoints)
-
         return Monster(
                 name,
-                type,
+                type(),
                 size,
                 alignment,
-                armorClass,
-                hitpointsExpression,
+                ac(),
+                hitPointsExpression(),
                 speed,
                 Attributes(Attribute(strength), Attribute(dexterity), Attribute(constitution), Attribute(intelligence), Attribute(wisdom), Attribute(charisma)),
-                save,
+                saves(),
                 skills.map { it.toModel() },
                 resist,
                 immune,
@@ -123,6 +131,38 @@ internal data class ParsedMonster(val id: Int,
                 environments.map { it.toModel() },
                 sources.map { it.toModel() })
     }
+
+    private fun hitPointsExpression(): DiceExpression {
+        val hitpointsExpression = DiceExpression.fromString(hitPoints)
+        assert(hitpointsExpression.average().toInt() == averageHitPoints)
+        return hitpointsExpression
+    }
+
+    private fun ac(): ArmourClass {
+        val match = Regex("(\\d+)\\s*(?:\\(\\s*(.+)\\s*\\))?\\s*").matchEntire(armorClass) ?: throw RuntimeException("Weird looking armor: $armorClass")
+        val (value, description) = match.destructured
+        return ArmourClass(value.toInt(), if (description.isBlank()) null else description)
+    }
+
+    private fun type(): MonsterType {
+        val match = Regex("(.+?)\\s*(?:\\(\\s*(.+?)\\s*\\)?\\s*)?").matchEntire(type) ?: throw RuntimeException("Weird looking type: $type")
+        val (supertype, subtype) = match.destructured
+
+        val monsterClass = MonsterClass.values().first {
+            it.name.toLowerCase().replace('_', ' ') == supertype.toLowerCase()
+        }
+
+        return MonsterType( monsterClass, if (subtype.isBlank()) null else subtype)
+    }
+
+
+    private fun saves(): List<ExplicitSave> {
+        val saves = (save ?: "").split(',').filter { it.isNotBlank() }.map {
+            val (attribute, modifier) = it.trim().split(' ')
+            ExplicitSave(AttributeType.valueOf(attribute), Modifier(modifier.toInt()))
+        }
+        return saves
+    }
 }
 
 fun monstersFromResource(file: String): List<Monster> {
@@ -132,5 +172,4 @@ fun monstersFromResource(file: String): List<Monster> {
 
     return objectMapper.readValue<List<ParsedMonster>>(jsonStream, object : TypeReference<List<ParsedMonster>>() {}).map { it.toModel() }
 }
-
 

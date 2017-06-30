@@ -11,14 +11,14 @@ data class MonsterAttackDamage(val diceExpression: DiceExpression?,
                                val type: String?,
                                val special: String?)
 
+enum class AttackType { Weapon, Spell, Unknown, }
+enum class StandOff { Melee, Ranged, Unknown, }
+
 data class MonsterAttack(val type: String,
                          val toHitModifier: Modifier,
                          val damages: List<MonsterAttackDamage>,
-                         val selected: Boolean,
-                         val meleeWeaponAttack: Boolean,
-                         val meleeSpellAttack: Boolean,
-                         val rangedWeaponAttack: Boolean,
-                         val rangedSpellAttack: Boolean,
+                         val attackType: AttackType,
+                         val standOffs: Set<StandOff>,
                          val target: String?,
                          val spellReach: String?,
                          val spellRange: String?,
@@ -30,17 +30,23 @@ data class MonsterAction(val name: String, val description: String, val attacks:
 
 typealias MonsterEnvironment = String
 
-data class MonsterSources(val id: Int, val book: String, val page: Int)
+data class MonsterSources(val book: String, val page: Int)
+
+data class ArmourClass(val value: Int, val description: String?)
+
+enum class MonsterClass { aberration, humanoid, plant, beast, monstrosity, fiend, dragon, elemental, construct, undead, fey, giant, ooze, celestial, swarm_of_tiny_beasts, }
+
+data class MonsterType(val monsterClass: MonsterClass, val subtype: String?)
 
 data class Monster(val name: String,
-                   val type: String,
+                   val type: MonsterType,
                    val size: MonsterSize,
                    val alignment: String,
-                   val armorClass: String,
+                   val armorClass: ArmourClass,
                    val hitPoints: DiceExpression,
                    val speed: String,
                    val attributes: Attributes,
-                   val save: String?,
+                   val saves: List<ExplicitSave>,
                    val skills: List<ExplicitSkillModifier>,
                    val resist: String?,
                    val immune: String?,
