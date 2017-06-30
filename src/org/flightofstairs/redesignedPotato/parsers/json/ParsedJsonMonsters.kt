@@ -5,6 +5,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.flightofstairs.redesignedPotato.Main
 import org.flightofstairs.redesignedPotato.model.*
 import org.flightofstairs.redesignedPotato.model.AttackType.*
+import org.flightofstairs.redesignedPotato.model.AttackType.Unknown
+import org.flightofstairs.redesignedPotato.model.StandOff.*
 
 internal interface Parsed<out Type> {
     fun toModel(): Type
@@ -52,8 +54,8 @@ internal data class ParsedAttack(val id: Int,
         val attackType = if (isWeapon) Weapon else if (isSpell) Spell else Unknown
 
         val standOffs = setOf<StandOff>()
-                .plus(if (meleeWeaponAttack || meleeSpellAttack) listOf(StandOff.Melee) else listOf())
-                .plus(if (rangedWeaponAttack || rangedSpellAttack) listOf(StandOff.Ranged) else listOf())
+                .plus(if (meleeWeaponAttack || meleeSpellAttack) listOf(Melee) else listOf())
+                .plus(if (rangedWeaponAttack || rangedSpellAttack) listOf(Ranged) else listOf())
 
         return MonsterAttack(type, Modifier(toHit), damages.map { it.toModel() }, attackType, standOffs, target, spellReach, spellRange, reach, range, maxRange)
     }

@@ -12,7 +12,7 @@ data class MonsterAttackDamage(val diceExpression: DiceExpression?,
                                val special: String?)
 
 enum class AttackType { Weapon, Spell, Unknown, }
-enum class StandOff { Melee, Ranged, Unknown, }
+enum class StandOff { Melee, Ranged, }
 
 data class MonsterAttack(val type: String,
                          val toHitModifier: Modifier,
