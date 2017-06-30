@@ -17,12 +17,12 @@ class AttributesTest {
     }
 
     @Test
-    fun getAtributeOfType() {
-        assertEquals(Attribute(19), ankylosaurus.getAtributeOfType(AttributeType.Str))
-        assertEquals(Attribute(11), ankylosaurus.getAtributeOfType(AttributeType.Dex))
-        assertEquals(Attribute(15), ankylosaurus.getAtributeOfType(AttributeType.Con))
-        assertEquals(Attribute(2), ankylosaurus.getAtributeOfType(AttributeType.Int))
-        assertEquals(Attribute(12), ankylosaurus.getAtributeOfType(AttributeType.Wis))
-        assertEquals(Attribute(5), ankylosaurus.getAtributeOfType(AttributeType.Cha))
+    fun getAttributeOfType() {
+        assertEquals(Attribute(19), ankylosaurus.getAttributeOfType(AttributeType.Str))
+        assertEquals(Attribute(11), ankylosaurus.getAttributeOfType(AttributeType.Dex))
+        assertEquals(Attribute(15), ankylosaurus.getAttributeOfType(AttributeType.Con))
+        assertEquals(Attribute(2), ankylosaurus.getAttributeOfType(AttributeType.Int))
+        assertEquals(Attribute(12), ankylosaurus.getAttributeOfType(AttributeType.Wis))
+        assertEquals(Attribute(5), ankylosaurus.getAttributeOfType(AttributeType.Cha))
     }
 }
