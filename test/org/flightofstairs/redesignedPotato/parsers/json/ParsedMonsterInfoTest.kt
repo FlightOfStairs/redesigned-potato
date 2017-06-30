@@ -5,7 +5,7 @@ import org.junit.Test
 import org.skyscreamer.jsonassert.JSONAssert
 import java.nio.charset.StandardCharsets.UTF_8
 
-class ParsedMonsterTest {
+class ParsedMonsterInfoTest {
     @Test
     fun yeti() {
         val objectMapper = jacksonObjectMapper()

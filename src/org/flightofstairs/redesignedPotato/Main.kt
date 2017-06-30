@@ -1,7 +1,7 @@
 package org.flightofstairs.redesignedPotato
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.flightofstairs.redesignedPotato.model.Monster
+import org.flightofstairs.redesignedPotato.model.MonsterInfo
 import org.flightofstairs.redesignedPotato.parsers.json.monstersFromResource
 
 class Main {
@@ -10,7 +10,7 @@ class Main {
 
 
 fun main(args: Array<String>) {
-    val monsters = listOf<Monster>()
+    val monsters = listOf<MonsterInfo>()
             .plus(monstersFromResource("/monsters/Out_of_the_Abyss.json"))
             .plus(monstersFromResource("/monsters/Monster_Manual.json"))
 

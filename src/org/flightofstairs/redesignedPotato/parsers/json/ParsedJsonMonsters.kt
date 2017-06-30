@@ -105,9 +105,9 @@ internal data class ParsedMonster(val id: Int,
                                   val legendaries: List<ParsedTrait>,
                                   val environments: List<ParsedEnvironment>,
                                   val sources: List<ParsedSources>,
-                                  val averageHitPoints: Int): Parsed<Monster> {
-    override fun toModel(): Monster {
-        return Monster(
+                                  val averageHitPoints: Int): Parsed<MonsterInfo> {
+    override fun toModel(): MonsterInfo {
+        return MonsterInfo(
                 name,
                 type(),
                 size,
@@ -167,7 +167,7 @@ internal data class ParsedMonster(val id: Int,
     }
 }
 
-fun monstersFromResource(file: String): List<Monster> {
+fun monstersFromResource(file: String): List<MonsterInfo> {
     val jsonStream = Main::class.java.getResourceAsStream(file)
 
     val objectMapper = jacksonObjectMapper()
