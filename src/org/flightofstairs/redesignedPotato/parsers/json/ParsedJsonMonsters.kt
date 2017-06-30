@@ -5,8 +5,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.flightofstairs.redesignedPotato.Main
 import org.flightofstairs.redesignedPotato.model.*
 import org.flightofstairs.redesignedPotato.model.AttackType.*
-import org.flightofstairs.redesignedPotato.model.AttackType.Unknown
-import org.flightofstairs.redesignedPotato.model.StandOff.*
+import org.flightofstairs.redesignedPotato.model.StandOff.Melee
+import org.flightofstairs.redesignedPotato.model.StandOff.Ranged
 
 internal interface Parsed<out Type> {
     fun toModel(): Type
@@ -120,7 +120,7 @@ internal data class ParsedMonster(val id: Int,
                 skills.map { it.toModel() },
                 resist,
                 immune,
-                condtionImmune,
+                condtionImmune?.split(',')?.map { Condition.valueOf(it.trim()) }?.toSet() ?: setOf<Condition>(),
                 senses,
                 passive,
                 languages,

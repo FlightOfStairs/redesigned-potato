@@ -38,6 +38,23 @@ enum class MonsterClass { aberration, humanoid, plant, beast, monstrosity, fiend
 
 data class MonsterType(val monsterClass: MonsterClass, val subtype: String?)
 
+enum class Condition {
+    blinded,
+    charmed,
+    deafened,
+    exhaustion,
+    frightened,
+    grappled,
+    necrotic,
+    paralyzed,
+    petrified,
+    poisoned,
+    prone,
+    restrained,
+    stunned,
+    unconscious,
+}
+
 data class Monster(val name: String,
                    val type: MonsterType,
                    val size: MonsterSize,
@@ -50,7 +67,7 @@ data class Monster(val name: String,
                    val skills: List<ExplicitSkillModifier>,
                    val resist: String?,
                    val immune: String?,
-                   val condtionImmune: String?, // misspelling in JSON
+                   val conditionImmune: Set<Condition>,
                    val senses: String?,
                    val passive: Int,
                    val languages: String?,

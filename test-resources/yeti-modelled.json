@@ -1,0 +1,145 @@
+{
+  "name" : "Yeti",
+  "type" : {
+    "monsterClass" : "monstrosity",
+    "subtype" : null
+  },
+  "size" : "Large",
+  "alignment" : "chaotic evil",
+  "armorClass" : {
+    "value" : 12,
+    "description" : "natural armor"
+  },
+  "hitPoints" : {
+    "subexpressions" : [ {
+      "count" : 6,
+      "sides" : 10
+    }, {
+      "number" : 18
+    } ]
+  },
+  "speed" : "40 ft., climb 40 ft.",
+  "attributes" : {
+    "str" : {
+      "score" : 18,
+      "modifier" : {
+        "number" : 4
+      }
+    },
+    "dex" : {
+      "score" : 13,
+      "modifier" : {
+        "number" : 1
+      }
+    },
+    "con" : {
+      "score" : 16,
+      "modifier" : {
+        "number" : 3
+      }
+    },
+    "int" : {
+      "score" : 8,
+      "modifier" : {
+        "number" : -1
+      }
+    },
+    "wis" : {
+      "score" : 12,
+      "modifier" : {
+        "number" : 1
+      }
+    },
+    "cha" : {
+      "score" : 7,
+      "modifier" : {
+        "number" : -2
+      }
+    }
+  },
+  "saves" : [ ],
+  "skills" : [ {
+    "skill" : "Perception",
+    "modifier" : {
+      "number" : 3
+    }
+  }, {
+    "skill" : "Stealth",
+    "modifier" : {
+      "number" : 3
+    }
+  } ],
+  "resist" : null,
+  "immune" : "cold",
+  "conditionImmune" : [ ],
+  "senses" : "darkvision 60 ft.",
+  "passive" : 13,
+  "languages" : "Yeti",
+  "challengeRating" : "3",
+  "xp" : 700,
+  "traits" : [ {
+    "name" : "Fear of Fire",
+    "description" : "If the yeti takes fire damage, it has disadvantage on attack rolls and ability checks until the end of its next turn."
+  }, {
+    "name" : "Keen Smell",
+    "description" : "The yeti has advantage on Wisdom (Perception) checks that rely on smell."
+  }, {
+    "name" : "Snow Camouflage",
+    "description" : "The yeti has advantage on Dexterity (Stealth) checks made to hide in snowy terrain."
+  } ],
+  "actions" : [ {
+    "name" : "Multiattack",
+    "description" : "The yeti can use its Chilling Gaze and makes two claw attacks.",
+    "attacks" : [ ]
+  }, {
+    "name" : "Claw",
+    "description" : "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) slashing damage plus 3 (1d6) cold damage.",
+    "attacks" : [ {
+      "type" : "Claw",
+      "toHitModifier" : {
+        "number" : 6
+      },
+      "damages" : [ {
+        "diceExpression" : {
+          "subexpressions" : [ {
+            "count" : 1,
+            "sides" : 6
+          }, {
+            "number" : 4
+          } ]
+        },
+        "type" : "Slashing",
+        "special" : null
+      }, {
+        "diceExpression" : {
+          "count" : 1,
+          "sides" : 6
+        },
+        "type" : "Cold",
+        "special" : null
+      } ],
+      "attackType" : "Weapon",
+      "standOffs" : [ "Melee" ],
+      "target" : "one target",
+      "spellReach" : null,
+      "spellRange" : null,
+      "reach" : "Reach 5 ft.",
+      "range" : null,
+      "maxRange" : null
+    } ]
+  }, {
+    "name" : "Chilling Gaze",
+    "description" : "The yeti targets one creature it can see within 30 ft. of it. If the target can see the yeti, the target must succeed on a DC 13 Constitution saving throw against this magic or take 10 (3d6) cold damage and then be paralyzed for 1 minute, unless it is immune to cold damage. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If the target's saving throw is successful, or if the effect ends on it, the target is immune to the Chilling Gaze of all yetis (but not abominable yetis) for 1 hour.",
+    "attacks" : [ ]
+  } ],
+  "reactions" : [ ],
+  "legendaries" : [ ],
+  "environments" : [ "arctic", "cave", "mountain" ],
+  "sources" : [ {
+    "book" : "Monster Manual",
+    "page" : 305
+  }, {
+    "book" : "Basic Rules v1",
+    "page" : 51
+  } ]
+}

@@ -16,6 +16,6 @@ fun main(args: Array<String>) {
 
     println(jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(monsters.find { it.name == "Yeti" }))
 
-    monsters.flatMap { it.actions}.flatMap { it.attacks }.forEach { if (it.standOffs.size > 1) println(it.damages) }
+    println(monsters.flatMap { it.conditionImmune }.toSet())
 
 }
