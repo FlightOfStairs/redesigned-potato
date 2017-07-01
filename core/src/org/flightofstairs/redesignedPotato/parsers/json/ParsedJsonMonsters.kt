@@ -154,7 +154,7 @@ internal data class ParsedMonster(val id: Int,
             it.name.toLowerCase().replace('_', ' ') == supertype.toLowerCase()
         }
 
-        return MonsterType( monsterClass, if (subtype.isBlank()) null else subtype)
+        return MonsterType(monsterClass, if (subtype.isBlank()) null else subtype)
     }
 
 
