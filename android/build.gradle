@@ -30,9 +30,14 @@ android {
         test.java.srcDirs = ['test']
         test.resources.srcDirs = ['test-resources']
     }
+
+    packagingOptions { // Todo: not violate copyright
+        exclude 'META-INF/LICENSE'
+    }
 }
 
 dependencies {
+    compile project(":core")
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.anko:anko:0.10.1"
     compile 'com.android.support:appcompat-v7:25.3.1'

@@ -36,7 +36,12 @@ data class ArmourClass(val value: Int, val description: String?)
 
 enum class MonsterClass { aberration, humanoid, plant, beast, monstrosity, fiend, dragon, elemental, construct, undead, fey, giant, ooze, celestial, swarm_of_tiny_beasts, }
 
-data class MonsterType(val monsterClass: MonsterClass, val subtype: String?)
+data class MonsterType(val monsterClass: MonsterClass, val subtype: String?) {
+    override fun toString() = when (this.subtype) {
+        null -> "$monsterClass"
+        else -> "$monsterClass ($subtype)"
+    }
+}
 
 enum class Condition {
     blinded,
