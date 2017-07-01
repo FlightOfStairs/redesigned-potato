@@ -40,7 +40,7 @@ data class Encounter(val players: List<PlayerCharacter>, val monsters: List<Mons
                 else -> 0
             }
 
-            return multipliers[Math.min(position, multipliers.size - 1)]
+            return multipliers[minOf(position, multipliers.size - 1)]
         }
     }
 }

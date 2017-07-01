@@ -22,21 +22,21 @@ sealed class DiceExpression {
 
         private fun fromCleanString(expression: String, negated: Boolean): DiceExpression {
             // assumes no complete expressions that are negative
-            if (expression.toCharArray().all { it.isDigit() }) return Modifier(expression.toInt().let { if (negated) 0 - it else it })
+            if (Regex("\\d+").matches(expression)) return Modifier(expression.toInt().let { if (negated) 0 - it else it })
 
             if (expression.contains('+')) {
                 return Sum(expression.split('+').map { fromCleanString(it, false) }).let { if (negated) Negation(it) else it }
             }
 
             if (expression.contains('-')) {
-                assert(expression.count { it == '-' } == 1)
-                assert(!negated)
+                if (expression.count { it == '-' } != 1) throw RuntimeException("Only one negation permitted at this point.")
+                if (negated) throw RuntimeException("Double negation is not supported")
                 val (left, right) = expression.split('-')
                 return Sum(listOf(fromCleanString(left, negated), fromCleanString(right, true)))
             }
 
             if (expression.contains('d')) {
-                assert(expression.count { it == 'd' } == 1)
+                if (expression.count { it == 'd' } != 1) throw RuntimeException("Only one size of dice permitted at this point.")
                 val (count, sides) = expression.split('d')
                 return Dice(count.toInt(), sides.toInt()).let { if (negated) Negation(it) else it }
             }

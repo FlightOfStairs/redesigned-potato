@@ -5,6 +5,8 @@ gradlew.bat
 build
 /out/
 
+node_modules
+node
 # Cache of project
 /.gradletasknamecache
 

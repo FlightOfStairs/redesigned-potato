@@ -2,7 +2,6 @@ package org.flightofstairs.redesignedPotato.parsers.json
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.flightofstairs.redesignedPotato.Main
 import org.flightofstairs.redesignedPotato.model.*
 import org.flightofstairs.redesignedPotato.model.AttackType.*
 import org.flightofstairs.redesignedPotato.model.StandOff.Melee
@@ -157,7 +156,6 @@ internal data class ParsedMonster(val id: Int,
         return MonsterType(monsterClass, if (subtype.isBlank()) null else subtype)
     }
 
-
     private fun saves(): List<ExplicitSave> {
         val saves = (save ?: "").split(',').filter { it.isNotBlank() }.map {
             val (attribute, modifier) = it.trim().split(' ')
@@ -168,7 +166,7 @@ internal data class ParsedMonster(val id: Int,
 }
 
 fun monstersFromResource(file: String): List<MonsterInfo> {
-    val jsonStream = Main::class.java.getResourceAsStream(file)
+    val jsonStream = MonsterInfo::class.java.getResourceAsStream(file)
 
     val objectMapper = jacksonObjectMapper()
 

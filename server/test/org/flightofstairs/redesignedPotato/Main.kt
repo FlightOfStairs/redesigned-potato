@@ -4,10 +4,6 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.flightofstairs.redesignedPotato.model.MonsterInfo
 import org.flightofstairs.redesignedPotato.parsers.json.monstersFromResource
 
-class Main {
-
-}
-
 
 fun main(args: Array<String>) {
     val monsters = listOf<MonsterInfo>()
