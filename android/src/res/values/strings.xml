@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RedesignedPotato</string>
+    <string name="name">nameField</string>
+    <string name="password">passwordField</string>
+</resources>

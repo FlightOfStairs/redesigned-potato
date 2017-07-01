@@ -1,4 +1,4 @@
-/.gradle
+.gradle
 gradle
 gradlew
 gradlew.bat
@@ -9,4 +9,6 @@ build
 /.gradletasknamecache
 
 /.idea/
-/redesigned-potato.iml
+*.iml
+
+local.properties
