@@ -1,4 +1,2 @@
-include 'model'
 include 'android'
-include 'javascript-interface'
-include 'server'
+include 'core'
