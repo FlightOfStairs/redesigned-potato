@@ -1,12 +1,16 @@
 package org.flightofstairs.redesignedPotato.model
 
+import java.lang.Math.abs
+
 sealed class DiceExpression {
 
-    fun average(): Double = when (this) {
+    fun average(): Int = averagePrecise().toInt()
+
+    internal fun averagePrecise(): Double = when (this) {
         is Modifier -> number.toDouble()
         is Dice -> (1.0 + sides) / 2 * count // The average of the terms of a contiguous subsequence of any arithmetic progression is the average of the first and last terms.
-        is Sum -> subexpressions.sumByDouble { it.average() }
-        is Negation -> 0 - negatedExpression.average()
+        is Sum -> subexpressions.sumByDouble { it.averagePrecise() }
+        is Negation -> 0 - negatedExpression.averagePrecise()
     }
 
     companion object {
@@ -47,7 +51,28 @@ sealed class DiceExpression {
 
 }
 
-data class Modifier(val number: Int) : DiceExpression()
-data class Dice(val count: Int, val sides: Int) : DiceExpression()
-data class Sum(val subexpressions: List<DiceExpression>) : DiceExpression()
-data class Negation(val negatedExpression: DiceExpression) : DiceExpression()
+data class Modifier(val number: Int) : DiceExpression() {
+    override fun toString() = abs(number).toString()
+}
+data class Dice(val count: Int, val sides: Int) : DiceExpression() {
+    override fun toString() = "${count}d${sides}"
+}
+data class Sum(val subexpressions: List<DiceExpression>) : DiceExpression() {
+    override fun toString(): String {
+        val head = subexpressions[0]
+        val tail = subexpressions.subList(1, subexpressions.size)
+
+        assert(head !is Negation)
+        assert(head !is Modifier || head.number >= 0)
+
+        val strings = listOf(head.toString()) + tail.flatMap {
+                if (it is Negation) listOf(it.toString())
+                else if (it is Modifier && it.number < 0) listOf("-", it.toString())
+                else listOf("+", it.toString())
+        }
+        return strings.joinToString(" ")
+    }
+}
+data class Negation(val negatedExpression: DiceExpression) : DiceExpression() {
+    override fun toString() = "- $negatedExpression"
+}

@@ -135,7 +135,7 @@ internal data class ParsedMonster(val id: Int,
 
     private fun hitPointsExpression(): DiceExpression {
         val hitpointsExpression = DiceExpression.fromString(hitPoints)
-        assert(hitpointsExpression.average().toInt() == averageHitPoints)
+        assert(hitpointsExpression.average() == averageHitPoints)
         return hitpointsExpression
     }
 

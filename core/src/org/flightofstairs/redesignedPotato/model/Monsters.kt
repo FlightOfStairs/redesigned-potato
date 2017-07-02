@@ -32,7 +32,9 @@ typealias MonsterEnvironment = String
 
 data class MonsterSources(val book: String, val page: Int)
 
-data class ArmourClass(val value: Int, val description: String?)
+data class ArmourClass(val value: Int, val description: String?) {
+    override fun toString() = if (description != null) "$value ($description)" else "$value"
+}
 
 enum class MonsterClass { aberration, humanoid, plant, beast, monstrosity, fiend, dragon, elemental, construct, undead, fey, giant, ooze, celestial, swarm_of_tiny_beasts, }
 
