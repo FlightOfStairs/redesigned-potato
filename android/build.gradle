@@ -33,27 +33,14 @@ android {
 
     packagingOptions { // Todo: not violate copyright
         exclude 'META-INF/LICENSE'
-
-        // React native limitation
-        // https://github.com/facebook/react-native/issues/2814
-        exclude '/lib/mips64/**'
-        exclude '/lib/arm64-v8a/**'
-        exclude '/lib/x86_64/**'
-
-    }
-}
-
-repositories {
-    maven {
-        url "node_modules/react-native/android"
     }
 }
 
 dependencies {
-    compile project(":core")
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "com.facebook.react:react-native:0.45.1"
-
     testCompile 'junit:junit:4.12'
+    compile project(':core')
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'org.jetbrains.anko:anko:0.10.1'
+    compile 'org.jetbrains.anko:anko-commons:0.10.1'
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }

@@ -27,6 +27,10 @@ enum class Skill(val baseAttributeType: AttributeType) {
 
 enum class AttributeType { Str, Dex, Con, Int, Wis, Cha, }
 
+data class Modifier(val number: Int) {
+    override fun toString() = if (number >= 0) "+$number" else "-$number"
+}
+
 data class Attribute(val score: Int) {
     val modifier = Modifier(score / 2 - 5)
 }

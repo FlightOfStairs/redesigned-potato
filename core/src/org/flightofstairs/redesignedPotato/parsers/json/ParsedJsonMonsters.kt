@@ -6,6 +6,7 @@ import org.flightofstairs.redesignedPotato.model.*
 import org.flightofstairs.redesignedPotato.model.AttackType.*
 import org.flightofstairs.redesignedPotato.model.StandOff.Melee
 import org.flightofstairs.redesignedPotato.model.StandOff.Ranged
+import org.slf4j.LoggerFactory
 
 internal interface Parsed<out Type> {
     fun toModel(): Type
@@ -135,7 +136,11 @@ internal data class ParsedMonster(val id: Int,
 
     private fun hitPointsExpression(): DiceExpression {
         val hitpointsExpression = DiceExpression.fromString(hitPoints)
-        assert(hitpointsExpression.average() == averageHitPoints)
+        val calculated = hitpointsExpression.average()
+        if (calculated != averageHitPoints) {
+            val message = "Mismatched average hitpoints for $name: $hitpointsExpression = $calculated, but $averageHitPoints was parsed. $sources"
+            loggerFor<MonsterInfo>().warn(message)
+        }
         return hitpointsExpression
     }
 
@@ -173,3 +178,4 @@ fun monstersFromResource(file: String): List<MonsterInfo> {
     return objectMapper.readValue<List<ParsedMonster>>(jsonStream, object : TypeReference<List<ParsedMonster>>() {}).map { it.toModel() }
 }
 
+inline fun <reified T:Any> loggerFor() = LoggerFactory.getLogger(T::class.java)

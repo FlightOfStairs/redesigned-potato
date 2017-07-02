@@ -23,12 +23,17 @@ compileKotlin {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.8.7"
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.8.7'
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile "org.slf4j:slf4j-api:1.7.25"
 
     testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:java-hamcrest:2.0.0.0'
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testCompile "org.skyscreamer:jsonassert:1.5.0"
-    testCompile "org.mockito:mockito-core:2.8.47"
-    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
+    testCompile 'org.skyscreamer:jsonassert:1.5.0'
+    testCompile 'org.mockito:mockito-core:2.8.47'
+    testCompile 'com.nhaarman:mockito-kotlin:1.5.0'
+    testRuntimeClasspath "org.apache.logging.log4j:log4j-api:2.8.2"
+    testRuntimeClasspath "org.apache.logging.log4j:log4j-core:2.8.2"
+    testRuntimeClasspath "org.apache.logging.log4j:log4j-slf4j-impl:2.8.2"
 }
