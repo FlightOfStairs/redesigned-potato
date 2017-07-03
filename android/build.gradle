@@ -43,4 +43,7 @@ dependencies {
     compile 'org.jetbrains.anko:anko:0.10.1'
     compile 'org.jetbrains.anko:anko-commons:0.10.1'
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+    compile "org.slf4j:slf4j-api:1.7.25"
+    compile "org.slf4j:slf4j-android:1.7.25"
 }

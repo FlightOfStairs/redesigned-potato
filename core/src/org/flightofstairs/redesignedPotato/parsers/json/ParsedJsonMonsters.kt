@@ -2,11 +2,11 @@ package org.flightofstairs.redesignedPotato.parsers.json
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import org.flightofstairs.redesignedPotato.loggerFor
 import org.flightofstairs.redesignedPotato.model.*
 import org.flightofstairs.redesignedPotato.model.AttackType.*
 import org.flightofstairs.redesignedPotato.model.StandOff.Melee
 import org.flightofstairs.redesignedPotato.model.StandOff.Ranged
-import org.slf4j.LoggerFactory
 
 internal interface Parsed<out Type> {
     fun toModel(): Type
@@ -177,5 +177,3 @@ fun monstersFromResource(file: String): List<MonsterInfo> {
 
     return objectMapper.readValue<List<ParsedMonster>>(jsonStream, object : TypeReference<List<ParsedMonster>>() {}).map { it.toModel() }
 }
-
-inline fun <reified T:Any> loggerFor() = LoggerFactory.getLogger(T::class.java)
