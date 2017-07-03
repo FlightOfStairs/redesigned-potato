@@ -10,7 +10,6 @@ import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.text.Html.fromHtml
 import android.view.ViewGroup
 import org.flightofstairs.redesignedPotato.model.*
-import org.flightofstairs.redesignedPotato.parsers.json.monstersFromResource
 import org.flightofstairs.redesignedPotato.view.Text
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -20,11 +19,7 @@ class MainActivity: Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val monsters = listOf<MonsterInfo>()
-                .plus(monstersFromResource("/monsters/Out_of_the_Abyss.json"))
-                .plus(monstersFromResource("/monsters/Monster_Manual.json"))
-
-        MonsterStatBlockView(monsters.find { it.name == "Bugbear Chief" }!!).setContentView(this)
+        MonsterStatBlockView(monsters["Mummy Lord"]!!).setContentView(this)
     }
 }
 

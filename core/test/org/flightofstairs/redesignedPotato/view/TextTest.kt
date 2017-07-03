@@ -34,4 +34,12 @@ class TextTest {
         assertThat(Text.rollAttacks(action), matchesPattern(expected))
     }
 
+    @Test
+    fun rollAttacks_multipleDamage() {
+        val action = monsters["Mummy Lord"]!!
+                .actions.find { it.name == "Rotting Fist" }!!
+
+        val expected = "Rotting Fist\n\n\\d{1,2} to hit. \\d{1,2} Bludgeoning, \\d{1,2} Necrotic damage."
+        assertThat(Text.rollAttacks(action), matchesPattern(expected))
+    }
 }
